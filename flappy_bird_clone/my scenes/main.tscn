@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://7ujeo871rse5"]
+
+[ext_resource type="Script" uid="uid://bqd77ww7i2e8n" path="res://my scenes/main.gd" id="1_4xi5i"]
+[ext_resource type="Texture2D" uid="uid://d38ceuoo614k4" path="res://assets/bg.png" id="1_cqyos"]
+[ext_resource type="PackedScene" uid="uid://co58wc0qkfxj0" path="res://my scenes/character_body_2d.tscn" id="3_xlbu7"]
+[ext_resource type="PackedScene" uid="uid://bnxqp1j8s362p" path="res://my scenes/ground.tscn" id="4_4xi5i"]
+
+[sub_resource type="FontFile" id="FontFile_4xi5i"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_4xi5i")
+
+[node name="Bg" type="Sprite2D" parent="."]
+position = Vector2(452.5, 401.5)
+scale = Vector2(1.04514, 1.06641)
+texture = ExtResource("1_cqyos")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_xlbu7")]
+
+[node name="PipeSpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Ground" parent="." instance=ExtResource("4_4xi5i")]
+position = Vector2(17, 7)
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 400.0
+offset_top = 9.0
+offset_right = 469.0
+offset_bottom = 58.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_fonts/font = SubResource("FontFile_4xi5i")
+text = "SCORE: 0
+"
+
+[connection signal="death" from="CharacterBody2D" to="." method="_on_character_body_2d_death"]
+[connection signal="timeout" from="PipeSpawnTimer" to="." method="_on_pipe_spawn_timer_timeout"]
+[connection signal="body_entered" from="Ground" to="CharacterBody2D" method="_on_ground_body_entered"]
